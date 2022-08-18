@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "color-util": "^2.2.3"
+  },
+  "name": "colorsort",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "chrome": "open -a 'Google Chrome' index.html",
+    "safari": "open -a 'Safari' index.html",
+    "firefox": "echo \"Error: not supported on Firefox\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

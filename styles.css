@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+}
+
+body {
+    margin: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+/* the div in which the color tiles will load in and line up */
+#game-zone {
+    display: flex;
+    justify-content: center;
+    max-width: 80vw;
+    flex-wrap: nowrap;
+}
+
+/* an individual color tile div; its color is decided upon creation */
+.tile {
+    width: 75px;
+    height: 75px;
+}
