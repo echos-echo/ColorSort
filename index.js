@@ -7,8 +7,10 @@ const generateColors = tileNumbers => {
     while (tileNumbers > 0) {
         // colorArray.push(randomHexColor());
         let randomHue = Math.round(Math.random() * 255);
-        
-        colorArray.push();
+        while (colorArray.includes(randomHue)) {
+            randomHue = Math.round(Math.random() * 255);
+        }
+        colorArray.push(randomHue);
         tileNumbers--;
     }
     return colorArray;
