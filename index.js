@@ -104,11 +104,16 @@ const checkSolution = gameColors => {
     return solution.every((tile, ind) => tile == tilesNow[ind]);
 }
 
-console.log(checkSolution(gameColors))
+
 
 // a button below the game area that refreshes the colors to the next 'game'
 const toNextGame = document.getElementById('next-round');
 toNextGame.addEventListener('click', makeBoard);
+
+const movableTiles = document.getElementsByClassName('moveable-tile');
+[...movableTiles].forEach(colorTile => colorTile.onmousedown = () => {window.alert(`you have clicked on hue ${colorTile.id}!`)});
+
+
 
 // TO DO:
 // - click and drag implementation:
