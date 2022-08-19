@@ -23,7 +23,7 @@ const generateColors = tileNumbers => {
 const generateTile = color => {
     // tile color is determined in HSV color, with a set saturation and value of 50%
     // the id is important; will refer to it later when fetching the game state
-    return `<div class='tile' draggable=true style='background-color: hsl(${color}, 50%, 50%)' id='${color}'></div>`
+    return `<div class='tile' style='background-color: hsl(${color}, 50%, 50%)' id='${color}'></div>`
 }
 
 // clears the previous row so the new row of color tiles can append
@@ -60,6 +60,7 @@ const makeBoard = () => {
             // adding an additional class ONLY to the tiles that are not start or end
             // start/end tiles will stay in place, moveable-tiles in between can be dragged/moved
             colorTile.firstChild.classList.add('moveable-tile');
+            colorTile.firstChild.draggable = true;
             colorTile.classList.add('tileDiv');
             gameRow.appendChild(colorTile);
         }
@@ -117,11 +118,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     function handleDragStart(e) {
         this.style.opacity = '1';
-      dragSrcEl = this;
-      sourceTile = this;
+        dragSrcEl = this;
+        sourceTile = this;
   
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/html', this.outerHTML);
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.outerHTML);
     }
   
     function handleDragOver(e) {
@@ -152,19 +153,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (dragSrcEl != this) {
             dragSrcEl.outerHTML = this.outerHTML;
             this.outerHTML = e.dataTransfer.getData('text/html');
+            this.classList.remove('over')
+            dragSrcEl.classList.remove('over')
         }
+        items.forEach(function (item) {
+            item.classList.remove('over');
+          });
+          console.dir(dragSrcEl.classList)
       
         return false;
     }
   
     function handleDragEnd(e) {
-      items.forEach(function (item) {
-        item.classList.remove('over');
-      });
+      
     }
     
     
-    let items = document.querySelectorAll('.tile');
+    let items = document.querySelectorAll('.moveable-tile');
     items.forEach(function(item) {
       item.addEventListener('dragstart', handleDragStart, false);
       item.addEventListener('dragenter', handleDragEnter, false);
