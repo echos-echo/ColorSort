@@ -147,25 +147,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (e.stopPropagation) {
             e.stopPropagation(); // stops the browser from redirecting.
         }
-        // if (this.nextSibling) {
-        //     this.parentNode.parentNode.insertBefore(sourceTile, this.nextSibling);
-        // }
+
         if (dragSrcEl != this) {
             dragSrcEl.outerHTML = this.outerHTML;
             this.outerHTML = e.dataTransfer.getData('text/html');
-            this.classList.remove('over')
-            dragSrcEl.classList.remove('over')
         }
-        items.forEach(function (item) {
-            item.classList.remove('over');
-          });
-          console.dir(dragSrcEl.classList)
+        console.dir(dragSrcEl);
+        console.dir(this);
       
         return false;
     }
   
     function handleDragEnd(e) {
-      
+        items.forEach(function (item) {
+            item.classList.remove('over');
+        });
     }
     
     
@@ -179,79 +175,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       item.addEventListener('dragend', handleDragEnd, false);
     });
   });
-
-/*
-const movableTiles = document.getElementsByClassName('moveable-tile');
-[...movableTiles].forEach(colorTile => {
-    colorTile.onmousedown = (event) => {
-        let shiftX = event.clientX - colorTile.getBoundingClientRect().left;
-        let shiftY = event.clientY - colorTile.getBoundingClientRect().top;
-
-        colorTile.style.position = 'absolute';
-        colorTile.style.zIndex = 1000;
-        document.body.append(colorTile);
-
-        function moveAt(pageX, pageY) {
-            colorTile.style.left = pageX - shiftX + 'px';
-            colorTile.style.top = pageY - shiftY + 'px';
-        }
-
-        moveAt(event.pageX, event.pageY);
-
-        let currentDroppable = null;
-        
-        function onMouseMove(event) {
-            moveAt(event.pageX, event.pageY);
-            colorTile.hidden = true;
-            let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-            colorTile.hidden = false;
-            console.dir(elemBelow);
-
-            // mousemove events may trigger out of the window (when the colorTile is dragged off-screen)
-            // if clientX/clientY are out of the window, then elementFromPoint returns null
-            if (!elemBelow) return;
-
-            // potential droppables are labeled with the class "droppable" (can be other logic)
-            let droppableBelow = elemBelow.closest('.droppable');
-
-            function enterDroppable(elem) {
-                elem.style.background = 'black';
-              }
-          
-              function leaveDroppable(elem) {
-                elem.style.background = '';
-              }
-
-            if (currentDroppable != droppableBelow) {
-                // we're flying in or out...
-                // note: both values can be null
-                //   currentDroppable=null if we were not over a droppable before this event (e.g over an empty space)
-                //   droppableBelow=null if we're not over a droppable now, during this event
-
-                if (currentDroppable) {
-                // the logic to process "flying out" of the droppable (remove highlight)
-                leaveDroppable(currentDroppable);
-                }
-                currentDroppable = droppableBelow;
-                if (currentDroppable) {
-                // the logic to process "flying in" of the droppable
-                enterDroppable(currentDroppable);
-                }
-            }
-        }
-
-        document.addEventListener('mousemove', onMouseMove);
-
-        colorTile.onmouseup = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            colorTile.onmouseup = null;
-        };
-    }
-    colorTile.ondragstart = () => false;
-});
-*/
-
-
 
 
 // TO DO:
