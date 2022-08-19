@@ -111,7 +111,37 @@ const toNextGame = document.getElementById('next-round');
 toNextGame.addEventListener('click', makeBoard);
 
 const movableTiles = document.getElementsByClassName('moveable-tile');
-[...movableTiles].forEach(colorTile => colorTile.onmousedown = () => {window.alert(`you have clicked on hue ${colorTile.id}!`)});
+[...movableTiles].forEach(colorTile => {
+    colorTile.onmousedown = (event) => {
+        let shiftX = event.clientX - colorTile.getBoundingClientRect().left;
+        let shiftY = event.clientY - colorTile.getBoundingClientRect().top;
+
+        colorTile.style.position = 'absolute';
+        colorTile.style.zIndex = 1000;
+        document.body.append(colorTile);
+
+        function moveAt(pageX, pageY) {
+            colorTile.style.left = pageX - shiftX + 'px';
+            colorTile.style.top = pageY - shiftY + 'px';
+        }
+
+        moveAt(event.pageX, event.pageY);
+        
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+
+        colorTile.onmouseup = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            colorTile.onmouseup = null;
+        };
+    }
+    colorTile.ondragstart = () => false;
+});
+
+
 
 
 
