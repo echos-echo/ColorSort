@@ -49,6 +49,7 @@ const makeBoard = () => {
     // appends the lowest hue first
     const firstTile = document.createElement('div');
     firstTile.innerHTML = generateTile(firstColor);
+    firstTile.draggable = true;
     gameRow.appendChild(firstTile);
     
     // creates and appends a color tile to the game-zone div
@@ -59,7 +60,8 @@ const makeBoard = () => {
             colorTile.innerHTML = generateTile(color);
             // adding an additional class ONLY to the tiles that are not start or end
             // start/end tiles will stay in place, moveable-tiles in between can be dragged/moved
-            colorTile.classList.add('moveable-tile');
+            colorTile.firstChild.classList.add('moveable-tile');
+            colorTile.classList.add('tileDiv');
             gameRow.appendChild(colorTile);
         }
     });
@@ -126,9 +128,47 @@ const movableTiles = document.getElementsByClassName('moveable-tile');
         }
 
         moveAt(event.pageX, event.pageY);
+
+        let currentDroppable = null;
         
         function onMouseMove(event) {
             moveAt(event.pageX, event.pageY);
+            colorTile.hidden = true;
+            let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+            colorTile.hidden = false;
+            console.dir(elemBelow);
+
+            // mousemove events may trigger out of the window (when the colorTile is dragged off-screen)
+            // if clientX/clientY are out of the window, then elementFromPoint returns null
+            if (!elemBelow) return;
+
+            // potential droppables are labeled with the class "droppable" (can be other logic)
+            let droppableBelow = elemBelow.closest('.droppable');
+
+            function enterDroppable(elem) {
+                elem.style.background = 'black';
+              }
+          
+              function leaveDroppable(elem) {
+                elem.style.background = '';
+              }
+
+            if (currentDroppable != droppableBelow) {
+                // we're flying in or out...
+                // note: both values can be null
+                //   currentDroppable=null if we were not over a droppable before this event (e.g over an empty space)
+                //   droppableBelow=null if we're not over a droppable now, during this event
+
+                if (currentDroppable) {
+                // the logic to process "flying out" of the droppable (remove highlight)
+                leaveDroppable(currentDroppable);
+                }
+                currentDroppable = droppableBelow;
+                if (currentDroppable) {
+                // the logic to process "flying in" of the droppable
+                enterDroppable(currentDroppable);
+                }
+            }
         }
 
         document.addEventListener('mousemove', onMouseMove);

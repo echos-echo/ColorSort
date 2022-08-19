@@ -17,6 +17,11 @@ body {
     flex-wrap: nowrap;
 }
 
+.tileDiv {
+    width: 75px;
+    height: 75px;
+}
+
 /* an individual color tile div; its color is decided upon creation */
 .tile {
     border: ridge 2px whitesmoke;
