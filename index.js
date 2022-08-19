@@ -4,12 +4,15 @@
 // the array has the number of tileNumbers, provided when invoked
 const generateColors = tileNumbers => {
     const colorArray = [];
+    // runs if there are still tiles left to generate a color for
     while (tileNumbers > 0) {
-        // colorArray.push(randomHexColor());
+        // initializing a random hue...
         let randomHue = Math.round(Math.random() * 255);
+        // if the random hue already exists in our array, keep randomizing until the value does not already exist
         while (colorArray.includes(randomHue)) {
             randomHue = Math.round(Math.random() * 255);
         }
+        // add the new, random hue to our array of colors
         colorArray.push(randomHue);
         tileNumbers--;
     }
@@ -54,6 +57,8 @@ const makeBoard = () => {
         if (color !== firstColor && color !== lastColor) {
             const colorTile = document.createElement('div');
             colorTile.innerHTML = generateTile(color);
+            // adding an additional class ONLY to the tiles that are not start or end
+            // start/end tiles will stay in place, moveable-tiles in between can be dragged/moved
             colorTile.classList.add('moveable-tile');
             gameRow.appendChild(colorTile);
         }
