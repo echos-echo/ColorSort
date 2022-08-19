@@ -13,11 +13,9 @@
 <h2>To-Do</h2>
 <div>
   <ul>
-    <li>Algorithm to find the color-sorted solution for the randomly generated hex colors</li>
-    <li>Function to check the current game-state array of hex colors, to the solution array</li>
-    <li>Function/listener (mouseDown) to click on a color tile and move it from its current div/parent element</li>
-    <li>Function/listener (mouseUp) to let go of a color tile and have it appended where it is let go of</li>
-    <li>In addition to the mouseUp, color tile should be inserted where it is let go, and snap into position relative to its sibling elements</li>
+    <li>Click n Drag: Function/listener (mouseDown) to click on a color tile and move it from its current div/parent element</li>
+    <li>Click n Drag: Function/listener (mouseUp) to let go of a color tile and have it appended where it is let go of</li>
+    <li>Click n Drag: In addition to the mouseUp, color tile should be inserted where it is let go, and snap into position relative to its sibling elements</li>
     <li>Eventually, a win screen when a set of colors is successfully sorted</li>
   </ul>
 </div>
