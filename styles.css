@@ -3,6 +3,7 @@
 }
 
 body {
+    background-color: #696969;
     margin: 10px;
     width: 100%;
     height: 100%;
@@ -18,6 +19,7 @@ body {
 
 /* an individual color tile div; its color is decided upon creation */
 .tile {
+    border: ridge 2px whitesmoke;
     width: 75px;
     height: 75px;
 }
