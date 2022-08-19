@@ -23,7 +23,7 @@ const generateColors = tileNumbers => {
 const generateTile = color => {
     // tile color is determined in HSV color, with a set saturation and value of 50%
     // the id is important; will refer to it later when fetching the game state
-    return `<div class='tile' style='background-color: hsl(${color}, 50%, 50%)' id='${color}'></div>`
+    return `<div class='tile' draggable=true style='background-color: hsl(${color}, 50%, 50%)' id='${color}'></div>`
 }
 
 // clears the previous row so the new row of color tiles can append
@@ -49,7 +49,6 @@ const makeBoard = () => {
     // appends the lowest hue first
     const firstTile = document.createElement('div');
     firstTile.innerHTML = generateTile(firstColor);
-    firstTile.draggable = true;
     gameRow.appendChild(firstTile);
     
     // creates and appends a color tile to the game-zone div
@@ -112,6 +111,71 @@ const checkSolution = gameColors => {
 const toNextGame = document.getElementById('next-round');
 toNextGame.addEventListener('click', makeBoard);
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    var dragSrcEl = null;
+    let sourceTile;
+    
+    function handleDragStart(e) {
+        this.style.opacity = '1';
+      dragSrcEl = this;
+      sourceTile = this;
+  
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.outerHTML);
+    }
+  
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+  
+      e.dataTransfer.dropEffect = 'move';
+      
+      return false;
+    }
+  
+    function handleDragEnter(e) {
+      this.classList.add('over');
+    }
+  
+    function handleDragLeave(e) {
+      this.classList.remove('over');
+    }
+  
+    function handleDrop(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation(); // stops the browser from redirecting.
+        }
+        // if (this.nextSibling) {
+        //     this.parentNode.parentNode.insertBefore(sourceTile, this.nextSibling);
+        // }
+        if (dragSrcEl != this) {
+            dragSrcEl.outerHTML = this.outerHTML;
+            this.outerHTML = e.dataTransfer.getData('text/html');
+        }
+      
+        return false;
+    }
+  
+    function handleDragEnd(e) {
+      items.forEach(function (item) {
+        item.classList.remove('over');
+      });
+    }
+    
+    
+    let items = document.querySelectorAll('.tile');
+    items.forEach(function(item) {
+      item.addEventListener('dragstart', handleDragStart, false);
+      item.addEventListener('dragenter', handleDragEnter, false);
+      item.addEventListener('dragover', handleDragOver, false);
+      item.addEventListener('dragleave', handleDragLeave, false);
+      item.addEventListener('drop', handleDrop, false);
+      item.addEventListener('dragend', handleDragEnd, false);
+    });
+  });
+
+/*
 const movableTiles = document.getElementsByClassName('moveable-tile');
 [...movableTiles].forEach(colorTile => {
     colorTile.onmousedown = (event) => {
@@ -180,7 +244,7 @@ const movableTiles = document.getElementsByClassName('moveable-tile');
     }
     colorTile.ondragstart = () => false;
 });
-
+*/
 
 
 
