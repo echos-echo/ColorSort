@@ -17,7 +17,7 @@ body {
     flex-wrap: nowrap;
 }
 
-.tileDiv {
+.moveable-tile {
     width: 75px;
     height: 75px;
     cursor: move;

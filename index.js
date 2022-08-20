@@ -61,7 +61,6 @@ const makeBoard = () => {
             // start/end tiles will stay in place, moveable-tiles in between can be dragged/moved
             colorTile.firstChild.classList.add('moveable-tile');
             colorTile.firstChild.draggable = true;
-            colorTile.classList.add('tileDiv');
             gameRow.appendChild(colorTile);
         }
     });
@@ -116,6 +115,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var sourceTile;
     
     function handleDragStart(e) {
+        console.dir(`dragging color ${this.id}`);
         this.style.opacity = '1';
         sourceTile = this;
         e.dataTransfer.effectAllowed = 'move';
@@ -152,16 +152,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.dir('swapping success!');
             console.log(`old tile is ${this.outerHTML}, \nnew tile is ${sourceTile.outerHTML}`);
         }
-        let overs = [...document.getElementsByClassName('over')];
-        overs.forEach(element => element.classList.remove('over'));
-      
         return false;
     }
   
     function handleDragEnd(e) {
-        items.forEach(function (item) {
-            item.classList.remove('over');
-        });
+        console.dir('dropping complete');
+        [...document.getElementsByClassName('over')].forEach(element => element.classList.remove('over'));
     }
     
     
@@ -172,7 +168,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       item.addEventListener('dragover', handleDragOver, false);
       item.addEventListener('dragleave', handleDragLeave, false);
       item.addEventListener('drop', handleDrop, false);
-      item.addEventListener('mouseUp', handleDragEnd, false);
+      item.addEventListener('dragend', handleDragEnd, false);
     });
   });
 
