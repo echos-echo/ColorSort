@@ -20,6 +20,7 @@ body {
 .tileDiv {
     width: 75px;
     height: 75px;
+    cursor: move;
 }
 
 /* an individual color tile div; its color is decided upon creation */
@@ -27,7 +28,6 @@ body {
     border: ridge 2px whitesmoke;
     width: 75px;
     height: 75px;
-    cursor: move;
 }
 
 .over {

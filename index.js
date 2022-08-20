@@ -113,16 +113,14 @@ const toNextGame = document.getElementById('next-round');
 toNextGame.addEventListener('click', makeBoard);
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    var dragSrcEl = null;
-    let sourceTile;
+    var sourceTile;
     
     function handleDragStart(e) {
         this.style.opacity = '1';
-        dragSrcEl = this;
         sourceTile = this;
-  
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/html', this.outerHTML);
+
     }
   
     function handleDragOver(e) {
@@ -148,12 +146,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             e.stopPropagation(); // stops the browser from redirecting.
         }
 
-        if (dragSrcEl != this) {
-            dragSrcEl.outerHTML = this.outerHTML;
+        if (sourceTile != this) {
+            sourceTile.outerHTML = this.outerHTML;
             this.outerHTML = e.dataTransfer.getData('text/html');
+            console.dir('swapping success!');
+            console.log(`old tile is ${this.outerHTML}, \nnew tile is ${sourceTile.outerHTML}`);
         }
-        console.dir(dragSrcEl);
-        console.dir(this);
+        let overs = [...document.getElementsByClassName('over')];
+        overs.forEach(element => element.classList.remove('over'));
       
         return false;
     }
@@ -165,14 +165,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
     
     
-    let items = document.querySelectorAll('.moveable-tile');
+    let items = [...document.getElementsByClassName('moveable-tile')];
     items.forEach(function(item) {
       item.addEventListener('dragstart', handleDragStart, false);
       item.addEventListener('dragenter', handleDragEnter, false);
       item.addEventListener('dragover', handleDragOver, false);
       item.addEventListener('dragleave', handleDragLeave, false);
       item.addEventListener('drop', handleDrop, false);
-      item.addEventListener('dragend', handleDragEnd, false);
+      item.addEventListener('mouseUp', handleDragEnd, false);
     });
   });
 
